@@ -4,8 +4,10 @@ Description="Turn keyboard backlight on/off based on light sensor"
 [Service]
 Type=exec
 Environment=SENSOR=/sys/bus/iio/devices/iio:device2/in_illuminance_raw
-WorkingDirectory=/sys/class/leds/tpacpi::kbd_backlight/
-ExecStart=bash -c "(( $(cat ${SENSOR}) < 1500 )) && echo 1 > brightness || echo 0 > brightness"
+Environment=TRIGGER=/sys/class/leds/tpacpi::kbd_backlight/brightness
+Environment=THRESHOLD=1500
+Environment=VALUE=1
+ExecStart=bash -c "(( $(cat ${SENSOR}) < ${THRESHOLD} )) && echo ${VALUE} > ${TRIGGER} || echo 0 > ${TRIGGER}"
 
 [Install]
 WantedBy=multi-user.target

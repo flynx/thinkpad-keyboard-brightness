@@ -1,25 +1,27 @@
 
-SBIN_DIR := /usr/sbin/
+NAME := thinkpad-keyboard-brightness
+
 SERVICE_DIR := /etc/systemd/system/
 
-SCRIPT := thinkpad-keyboard-brightness
-TIMER := $(SCRIPT).timer
-UNIT := $(SCRIPT).service
+TIMER := $(NAME).timer
+UNIT := $(NAME).service
 
 
 
 .PHONY:install
-install: $(TIMER) $(UNIT) $(SCRIPT)
-	cp -f $(UNIT) $(TIMER) $(SERVICE_DIR) 
+install: $(TIMER) $(UNIT)
+	cp -f $? $(SERVICE_DIR) 
 	systemctl daemon-reload
 	systemctl enable ${UNIT}
 	systemctl enable ${TIMER}
 	systemctl start ${TIMER}
+	systemctl start ${UNIT}
 
 
 .PHONY:disable
 disable: $(TIMER) $(UNIT)
 	systemctl stop ${TIMER}
+	systemctl stop ${UNIT}
 	systemctl disable ${TIMER}
 	systemctl disable ${UNIT}
 
