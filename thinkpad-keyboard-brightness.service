@@ -3,7 +3,7 @@ Description="Turn keyboard backlight on/off based on light sensor"
 
 [Service]
 Type=exec
-Environment=SENSOR=/sys/bus/iio/devices/iio:device2/in_illuminance_raw
+Environment=SENSOR=/sys/bus/iio/devices/iio:device*/in_illuminance_raw
 Environment=TRIGGER=/sys/class/leds/tpacpi::kbd_backlight/brightness
 Environment=THRESHOLD=1500
 Environment=VALUE=1
