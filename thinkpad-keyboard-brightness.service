@@ -7,6 +7,7 @@ Environment=SENSOR=/sys/bus/iio/devices/iio:device2/in_illuminance_raw
 Environment=TRIGGER=/sys/class/leds/tpacpi::kbd_backlight/brightness
 Environment=THRESHOLD=1500
 Environment=VALUE=1
+User=root
 ExecStart=bash -c "(( $(cat ${SENSOR}) < ${THRESHOLD} )) && echo ${VALUE} > ${TRIGGER} || echo 0 > ${TRIGGER}"
 
 [Install]
