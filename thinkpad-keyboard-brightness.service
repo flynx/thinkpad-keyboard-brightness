@@ -1,12 +1,12 @@
 [Unit]
-Description="Turn keyboard backlight on/off bases on light sensor"
+Description="Turn keyboard backlight on/off based on light sensor"
 
 [Service]
-Type=oneshot
-RemainAfterExit=yes
-Environment="SENSOR=/sys/bus/iio/devices/iio::device2/in_illuminance_raw"
-WorkingDirectory=/sys/class/leds/dell::kbd_backlight/
-ExecStart=bash -c "[[ $(cat ${SENSOR}) < 1500  ]] && echo 1 > brightness || echo 0 > brightness"
+Type=exec
+Environment=SENSOR=/sys/bus/iio/devices/iio:device2/in_illuminance_raw
+WorkingDirectory=/sys/class/leds/tpacpi::kbd_backlight/
+ExecStart=bash -c "(( $(cat ${SENSOR}) < 1500 )) && echo 1 > brightness || echo 0 > brightness"
 
 [Install]
 WantedBy=multi-user.target
+

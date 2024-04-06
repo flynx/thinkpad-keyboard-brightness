@@ -1,5 +1,5 @@
 [Unit]
-Description="Turn keyboard backlight on/off bases on light sensor (timer)"
+Description="Turn keyboard backlight on/off based on light sensor (timer)"
 
 [Timer]
 AccuracySec=1s
