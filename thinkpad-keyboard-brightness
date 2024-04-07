@@ -1,0 +1,46 @@
+#!/usr/bin/bash
+
+if [ -e /etc/thinkpad-keyboard-brightness.conf ] ; then
+	source /etc/thinkpad-keyboard-brightness.conf
+fi
+
+if [ -z $SENSOR ] ; then
+	SENSOR=(/sys/bus/iio/devices/iio:device*/in_illuminance_raw)
+fi
+SENSOR=${SENSOR[0]}
+
+if [ -z $TRIGGER ] ; then
+	TRIGGER=(/sys/class/leds/*::kbd_backlight/brightness)
+fi
+TRIGGER=${TRIGGER[0]}
+
+THRESHOLD=${THRESHOLD:-2000}
+HYSTERESIS=${HYSTERESIS:-200}
+ATTEMPTS=${ATTEMPTS:-3}
+VALUE=${VALUE:-1}
+
+
+
+# read the illuminance value...
+# NOTE: the sensor sometimes randomly returns 0, this will make this 
+# 	less probabble to retult in backlight turning on/off randomly...
+ATTEMPT=0
+ILLUMINANCE=0
+while (( $ATTEMPT < $ATTEMPTS )) && (( $ILLUMINANCE == 0 )) ; do
+	ILLUMINANCE=$(cat ${SENSOR})
+	ATTEMPT=$((ATTEMPT + 1))
+done
+
+#echo "ILLUMINANCE: $ILLUMINANCE (attempt: $ATTEMPT)"
+
+STATE=$(cat "$TRIGGER")
+
+# NOTE: this needs root...
+if (( $ILLUMINANCE < $THRESHOLD )) && (( $STATE == 0 )) ; then
+	echo "$VALUE" > "$TRIGGER"
+
+elif (( $ILLUMINANCE > $THRESHOLD + $HYSTERESIS )) ; then
+	echo 0 > "$TRIGGER"
+fi
+
+
