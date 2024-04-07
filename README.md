@@ -16,18 +16,10 @@ $ sudo make install
 
 ## Configure
 
-```bash
-$ sudo systemctl edit thinkpad-keyboard-brightness.service
-```
+For device-specific configuration see:
+[thinkpad-keyboard-brightness.conf](thinkpad-keyboard-brightness.conf)
 
-Variables that can change depending on device
-```
-[Service]
-Environment=SENSOR=/sys/bus/iio/devices/iio:device2/in_illuminance_raw
-Environment=TRIGGER=/sys/class/leds/tpacpi::kbd_backlight/brightness
-Environment=THRESHOLD=1500
-Environment=VALUE=1
-```
+This file lives in `/etc/thinkpad-keyboard-brightness.conf`
 
 
 ## Uninstall
