@@ -36,6 +36,13 @@ Environment=VALUE=1
 $ sudo make uninstall
 ```
 
+Note that the above will not uninstall user configuration files, for a 
+full uninstall run:
+
+```bash
+$ sudo make full-uninstall
+```
+
 
 ## License
 
