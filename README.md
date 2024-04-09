@@ -1,10 +1,10 @@
 # Thinkpad keyboard backlight brightness
 
-This systemd service will set the keyboard backlight brightness based on 
-ambient light levels.
+This systemd service will turn the keyboard backlight on/off brightness 
+based on ambient light level threshold.
 
 This is initially designed for _Thinkpad X1 Yoga (gen3)_ but should work 
-on other devices with minor configuration tweaks.
+on other devices with no or minor configuration tweaks.
 
 
 ## Install
